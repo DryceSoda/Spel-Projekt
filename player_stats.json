@@ -1,5 +1,9 @@
 {
     "Soda": {
+        "wins": 6,
+        "losses": 0
+    },
+    "Soa": {
         "wins": 1,
         "losses": 0
     }

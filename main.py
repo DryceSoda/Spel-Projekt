@@ -1,43 +1,26 @@
 # Hangman
-import random
 import os
+import json
+import random
 
-player_history_file = "player_history.txt"
+player_history_file = "player_stats.json"
 
 # funktion för att ladda spelar historik
-def load_player_history():
+def load_player_stats():
     if os.path.exists(player_history_file):
         with open(player_history_file, "r") as file:
-            return set(line.strip() for line in file.readlines())
-    return set()
+            return json.load(file)
+    return{}
 
-def save_player_history(player_history):
+def save_player_stats(player_stats):
     with open(player_history_file, "w") as file:
-        for name in player_history:
-            file.write(name + "\n")
+        json.dump(player_stats, file, indent=4)
 
 
 # laddar existerande spelar historik (om det redan finns)
-all_players = load_player_history()
-session_players = set()
+player_stats = load_player_stats()
 
-# frågar efter spelar namn
-player_name = input("Gib name: ")
-print(f"Hi {player_name}! Welcome to hangman, good luck")
 
-if player_name not in all_players:
-    all_players.add(player_name)
-    print("\nNew player added to history")
-session_players.add(player_name)
-
-# visa session spelare
-print("\nSession players: ")
-print(", ".join(session_players))
-
-print("\nAll-time players: ")
-print(", ".join(all_players))
-
-save_player_history(all_players)
 
 
 
@@ -148,11 +131,19 @@ words = ["Legendary", "Gros Michel", "BONK", "Fireflies", "Blueprint", "Brainsto
         "Aerosmith", "McQueen", "Balatro", "Snivy", "Water", "Schecter Synyster Gates Signature Standard", "Steve Vai", "Brains", "Photoshop",
         "Quixotic", "Embourgeoisement", "Metronome", "Surprise", "Book", "Gigabyte AORUS Elite B450-A", "Eric Clapton", "Bottle", "Cookie", "Beer", "Microphone"]
 
-# statistik för highscore
-games_won = 0
-games_lost = 0
-total_wrong_guesses = 0
-lowest_wrong_guesses = float('inf')
+# frågar efter spelar namn
+player_name = input("Gib name: ")
+print(f"Hi {player_name}! Welcome to hangmansdn")
+print("Type 'hint' if you need help, you can only ask for one hint!")
+
+if player_name not in player_stats:
+    player_stats[player_name] = {'wins': 0, 'losses': 0}
+    print("\nNew player added")
+
+print(f"\n{player_name}'s stats")
+print(f"wins: {player_stats[player_name]['wins']}, losses: {player_stats[player_name]['losses']}")
+
+
 
 while True:
     word = random.choice(words).lower()
@@ -161,11 +152,11 @@ while True:
     wrong = 0
     used = []
     hint_used = False
-    guess = ""
+    #guess = ""
     
 
     
-    print("Type 'hint' if you need help, you can only ask for one hint!")
+    
 
     # går igenom om ett svar är rätt/fel baserat på om spelaren angivit rätt ord eller en bokstav som finns i ordet, samt tar bort en linje om det är varken eller
     while wrong < max_wrong and so_far != word:
@@ -193,6 +184,7 @@ while True:
                 else:
                     print("\nNo hint available, you've already used it")
             continue
+
         # låter spelare gissa genom att skriva ett helt ord
         if len(guess) > 1:
             if guess == word:
@@ -229,44 +221,32 @@ while True:
             so_far = new
         
         else:
+            print(f"\nSkill issue. {guess} isn't the word, did you even try?")
             wrong += 1
-            #print("debug: wrong counter is:", wrong)
-            print("\nSkill issue.", guess, "Isn't in the word, did you even try?")
-            print(hangedman[wrong])
-    # hur många spel som vunnits/förlorats
-    if so_far == word:
-        games_won += 1
-        total_wrong_guesses += wrong
-        print("\nCongrats!", word, "is correct!")
-    else:
-        games_lost += 1
-        total_wrong_guesses += wrong
-        print(hangedman[wrong])
-        print("You got hanged, skill issue")
-        print("The correct word was:", word)
-    
-    # skriver ut statistik
-    print("\nGame Statistics:")
-    print("Games Won: ", games_won)
-    print("Games Lost: ", games_lost)
-    if games_won > 0:
-        print("Lowest wrongs: ", lowest_wrong_guesses)
-        print("Total wrongs: ", total_wrong_guesses)
-
-        # använde det här innan, lämnar även om det inte används längre
-        #if wrong == max_wrong:
             #print(hangedman[wrong])
-            #print("You got hanged, skill issue")
-            #print("The correct word was:", word)
-    
-        #else:
-            #print("\nCongrats!", word," ", "is correct!")
+    if so_far == word:
+        print(f"\nCongrats, {player_name}! {word} is correct")
+        player_stats[player_name]['wins'] += 1
+        
+    else:
+        print(hangedman[wrong])
+        print("You got hanged..")
+        print(f"The correct word was: {word}")
+        player_stats[player_name]['losses'] += 1
+        
+        print(f"\n{player_name}'s stats")
+        print(f"wins: {player_stats[player_name]['wins']}, losses: {player_stats[player_name]['losses']}")
+
+
 
     # ger ett val om spelaren vill köra igen eller inte
-    play_again = input("\nPlay again? (yes/no): ").lower()
+    play_again = input("\nPlay again? (yes/no): ").strip().lower()
     if play_again != "yes":
         print("Really? I thought we had a connection.. that's okay, goodbye... :C")
         break
+
+save_player_stats(player_stats)
+print("History saved, see you next time")
 
 
     
