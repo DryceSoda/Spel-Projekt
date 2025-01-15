@@ -6,5 +6,9 @@
     "Soa": {
         "wins": 1,
         "losses": 0
+    },
+    "Bonk": {
+        "wins": 2,
+        "losses": 0
     }
 }

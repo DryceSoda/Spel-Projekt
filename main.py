@@ -28,14 +28,17 @@ def display_stats(player_name, player_stats):
 
 # funktion som checkar om ordet är rätt eller fel
 def process_guess(guess, word, so_far, used):
+    
     if guess in used:
         return so_far, f"You've already guessed {guess}, try something different."
+    
     used.append(guess)
 
     if guess in word:
         
         new_so_far = "".join([guess if word[i] == guess else so_far[i] for i in range(len(word))])
-        return new_so_far
+        return new_so_far, f"The letter '{guess}' is in the word!"
+    
     else:
         return so_far, f"Wrong guess, {guess} is not in the word. Try again."
 
@@ -170,65 +173,78 @@ display_stats(player_name, player_stats)
 
 
 while True:
-    word = random.choice(words).lower()
+    print("\nMain Menu")
+    print("1. Play Hangman")
+    print("2. Stats")
+    print("3. Exit")
+    choice = input("Choose an option (1, 2 or 3): ").strip()
 
-    so_far = "".join(["-" if char != " " else " " for char in word])
-    wrong = 0
-    used = []
-    hint_used = False
+
+
+    if choice == "1":
+        word = random.choice(words).lower()
+
+        so_far = "".join(["-" if char != " " else " " for char in word])
+        wrong = 0
+        used = []
+        hint_used = False
     
     
 
-    print("\nGame starting! Type 'hint' for a clue (only once!)")
+        print("\nGame starting! Type 'hint' for a clue (only once!)")
     
 
-    # går igenom om ett svar är rätt/fel baserat på om spelaren angivit rätt ord eller en bokstav som finns i ordet, samt tar bort en linje om det är varken eller
-    while wrong < max_wrong and so_far != word:
-        print("\n" + "-" * 30)
-        display_hangman(wrong)
-        print(f"\nUsed letters: {','.join(used) if used else 'None'}")
-        print(f"\nWord: {so_far}")
-        guess = input("Enter your guess: ").lower()
+        # går igenom om ett svar är rätt/fel baserat på om spelaren angivit rätt ord eller en bokstav som finns i ordet, samt tar bort en linje om det är varken eller
+        while wrong < max_wrong and so_far != word:
+            print("\n" + "-" * 30)
+            display_hangman(wrong)
+            print(f"\nUsed letters: {','.join(used) if used else 'None'}")
+            print(f"\nWord: {so_far}")
+            guess = input("Enter your guess: ").lower()
         
-        if guess == "hint":
-            if hint_used:
-                print("You've already used your hint!")
-            else:
-                hint_used = True
-                print(get_hint(word, so_far))
-            continue
-
-          # låter spelare gissa genom att skriva ett helt ord
-        if len(guess) > 1:
-            if guess == word:
-                so_far = word
-                break
-            else:
-                print(hangedman[wrong])
-                print(f"You really think {word} is it? Delusional, try again")
-                wrong += 1
+            if guess == "hint":
+                if hint_used:
+                    print("You've already used your hint!")
+                else:
+                    hint_used = True
+                    print(get_hint(word, so_far))
                 continue
-        so_far, message = process_guess(guess, word, so_far, used)
-        print(message) 
-        if message.startswith("Wrong"):
-            wrong += 1           
+
+            # låter spelare gissa genom att skriva ett helt ord
+            if len(guess) > 1:
+                if guess == word:
+                    so_far = word
+                    break
+                else:
+                    print(hangedman[wrong])
+                    print(f"You really think {word} is it? Delusional, try again")
+                    wrong += 1
+                    continue
+            so_far, message = process_guess(guess, word, so_far, used)
+            print(message) 
+
+            if message.startswith("Wrong"):
+                wrong += 1           
                          
-    print("\n" + "-" * 30)    
-    if so_far == word:
-        print(f"\nCongrats, {player_name}! {word} is correct")
-        player_stats[player_name]['wins'] += 1
+        print("\n" + "-" * 30)    
+        if so_far == word:
+            print(f"\nCongrats, {player_name}! {word} is correct")
+            player_stats[player_name]['wins'] += 1
         
-    else:
-        print(hangedman[wrong])
-        print(f"You got hanged.. The correct word was {word}")        
-        player_stats[player_name]['losses'] += 1
+        else:
+            display_hangman(wrong)
+            print(f"You got hanged.. The correct word was {word}")        
+            player_stats[player_name]['losses'] += 1
         
     # ger ett val om spelaren vill köra igen eller inte och visar stats
-    display_stats(player_name, player_stats)   
-    play_again = input("\nPlay again? (yes/no): ").strip().lower()
-    if play_again != "yes":
-        print("Really? I thought we had a connection.. that's okay, goodbye... :C")
-        break
+    elif choice == "2":
+        display_stats(player_name, player_stats)   
+        play_again = input("\nPlay again? (yes/no): ").strip().lower()
+
+    elif choice == "3":   
+        if play_again != "yes":
+            print("Really? I thought we had a connection.. that's okay, goodbye... :C")
+            break
 
 save_player_stats(player_stats)
 
