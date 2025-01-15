@@ -37,3 +37,5 @@ elif game_result == "lose":
 
 save_player_stats(player_stats)
 
+print(f"\nUpdated stats for {player_name}: ")
+print(f"\nWins: {player_stats[player_name]["wins"]}, Losses: {player_stats[player_name]["losses"]}")
