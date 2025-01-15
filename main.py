@@ -12,18 +12,42 @@ def load_player_stats():
             return json.load(file)
     return{}
 
+# funktion för att spara stats i json filen "player_stats.json"
 def save_player_stats(player_stats):
     with open(player_history_file, "w") as file:
         json.dump(player_stats, file, indent=4)
 
+# funktion för hangman listan 
+def display_hangman(wrong):
+    print(hangedman[wrong])
 
-# laddar existerande spelar historik (om det redan finns)
-player_stats = load_player_stats()
+# funktion för att samla alla stats
+def display_stats(player_name, player_stats):
+    print(f"\n{player_name}'s stats")
+    print(f"wins: {player_stats[player_name]['wins']}, losses: {player_stats[player_name]['losses']}")
 
+# funktion som checkar om ordet är rätt eller fel
+def process_guess(guess, word, so_far, used):
+    if guess in used:
+        return so_far, f"You've already guessed {guess}, try something different."
+    used.append(guess)
 
+    if guess in word:
+        
+        new_so_far = "".join([guess if word[i] == guess else so_far[i] for i in range(len(word))])
+        return new_so_far
+    else:
+        return so_far, f"Wrong guess, {guess} is not in the word. Try again."
 
+# get hint funktion som kallas senare i koden för att låta spelaren få en ledtråd
+def get_hint(word, so_far):
+    for i in range(len(word)):
+            if so_far[i] == "-":
+                return f"Hint: One of the letters is '{word[i]}!"
+    return "No hints available"
+            
 
-
+                                
 # hanged man "lista" så det ser ut som en stick gubbe
 hangedman = (
     """
@@ -131,18 +155,18 @@ words = ["Legendary", "Gros Michel", "BONK", "Fireflies", "Blueprint", "Brainsto
         "Aerosmith", "McQueen", "Balatro", "Snivy", "Water", "Schecter Synyster Gates Signature Standard", "Steve Vai", "Brains", "Photoshop",
         "Quixotic", "Embourgeoisement", "Metronome", "Surprise", "Book", "Gigabyte AORUS Elite B450-A", "Eric Clapton", "Bottle", "Cookie", "Beer", "Microphone"]
 
+player_stats = load_player_stats()
+
 # frågar efter spelar namn
-player_name = input("Gib name: ")
-print(f"Hi {player_name}! Welcome to hangmansdn")
+player_name = input("Your name: ")
+print(f"Hi {player_name}! Welcome to hangman")
 print("Type 'hint' if you need help, you can only ask for one hint!")
 
 if player_name not in player_stats:
     player_stats[player_name] = {'wins': 0, 'losses': 0}
     print("\nNew player added")
 
-print(f"\n{player_name}'s stats")
-print(f"wins: {player_stats[player_name]['wins']}, losses: {player_stats[player_name]['losses']}")
-
+display_stats(player_name, player_stats)
 
 
 while True:
@@ -152,101 +176,62 @@ while True:
     wrong = 0
     used = []
     hint_used = False
-    #guess = ""
+    
     
 
-    
+    print("\nGame starting! Type 'hint' for a clue (only once!)")
     
 
     # går igenom om ett svar är rätt/fel baserat på om spelaren angivit rätt ord eller en bokstav som finns i ordet, samt tar bort en linje om det är varken eller
     while wrong < max_wrong and so_far != word:
-        print(hangedman[wrong])
-
-        print("\nYou've used the following letters:\n", " ".join(used))
-        print("\nSo far, you have guessed:\t", so_far)
-    
+        print("\n" + "-" * 30)
+        display_hangman(wrong)
+        print(f"\nUsed letters: {','.join(used) if used else 'None'}")
+        print(f"\nWord: {so_far}")
         guess = input("Enter your guess: ").lower()
-
-
+        
         if guess == "hint":
             if hint_used:
-                print("You've already used one hint!")
+                print("You've already used your hint!")
             else:
                 hint_used = True
-                revealed_letter = None
-
-                for i in range(len(word)):
-                    if so_far[i] == "-":
-                        revealed_letter = word[i]
-                        break
-                if revealed_letter:
-                    print("\nHere's your hint! One of the letters is:", revealed_letter)
-                else:
-                    print("\nNo hint available, you've already used it")
+                print(get_hint(word, so_far))
             continue
 
-        # låter spelare gissa genom att skriva ett helt ord
+          # låter spelare gissa genom att skriva ett helt ord
         if len(guess) > 1:
             if guess == word:
                 so_far = word
                 break
             else:
                 print(hangedman[wrong])
-                print("You really think that's the word? Delusional, try again")
+                print(f"You really think {word} is it? Delusional, try again")
                 wrong += 1
                 continue
-            
-            # tillåter inte bokstäver eller ord användas om
-        while guess in used:
-            print("You've already guessed the letter:\t", guess)
-            guess = input("Guess again:\t").lower()
-        
-        used.append(guess)
-    
-    
-        #print("debug: guess is:", guess)
-        #print("debug: word is:", word)
-
-        # om bokstäven finns i ordet
-        if guess in word:
-            print("The letter", guess, "is in the word")
-
-
-            new = ""        
-            for i in range(len(word)):
-                if guess == word [i]:
-                    new += guess
-                else:
-                    new += so_far [i]
-            so_far = new
-        
-        else:
-            print(f"\nSkill issue. {guess} isn't the word, did you even try?")
-            wrong += 1
-            #print(hangedman[wrong])
+        so_far, message = process_guess(guess, word, so_far, used)
+        print(message) 
+        if message.startswith("Wrong"):
+            wrong += 1           
+                         
+    print("\n" + "-" * 30)    
     if so_far == word:
         print(f"\nCongrats, {player_name}! {word} is correct")
         player_stats[player_name]['wins'] += 1
         
     else:
         print(hangedman[wrong])
-        print("You got hanged..")
-        print(f"The correct word was: {word}")
+        print(f"You got hanged.. The correct word was {word}")        
         player_stats[player_name]['losses'] += 1
         
-        print(f"\n{player_name}'s stats")
-        print(f"wins: {player_stats[player_name]['wins']}, losses: {player_stats[player_name]['losses']}")
-
-
-
-    # ger ett val om spelaren vill köra igen eller inte
+    # ger ett val om spelaren vill köra igen eller inte och visar stats
+    display_stats(player_name, player_stats)   
     play_again = input("\nPlay again? (yes/no): ").strip().lower()
     if play_again != "yes":
         print("Really? I thought we had a connection.. that's okay, goodbye... :C")
         break
 
 save_player_stats(player_stats)
-print("History saved, see you next time")
+
 
 
     
