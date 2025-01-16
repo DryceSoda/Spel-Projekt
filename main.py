@@ -238,7 +238,13 @@ while True:
                     break
                 else:
                     print(hangedman[wrong])
-                    wrong_word = [f"I'm sorry but {guess} is not it", f"Unfortunately, {guess} is incorrect", f"Oooops, {guess} is not it", f"I guess {guess} was a confident guess but, nope"]
+                    wrong_word = [f"I'm sorry but {guess} is not it", 
+                                  f"Unfortunately, {guess} is incorrect", 
+                                  f"Oooops, {guess} is not it", 
+                                  f"I guess {guess} was a confident guess but, nope",
+                                  f"Sorry {guess} is not the word",
+                                  f"Almost but not quite, {guess} isn't even close.. or is it?",
+                                  f"Ouch, {guess} is not the word",]
                     wrong_w = random.choice(wrong_word)
                     print(wrong_w)
                         
