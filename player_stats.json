@@ -1,7 +1,7 @@
 {
     "Soda": {
-        "wins": 9,
-        "losses": 0
+        "wins": 10,
+        "losses": 1
     },
     "Soa": {
         "wins": 1,
@@ -16,7 +16,7 @@
         "losses": 0
     },
     "soda": {
-        "wins": 2,
+        "wins": 7,
         "losses": 0
     }
 }

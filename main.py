@@ -174,13 +174,16 @@ if player_name not in player_stats:
     player_stats[player_name] = {'wins': 0, 'losses': 0}
     print("\nNew player added")
 
-game_over_rep = [f"Game over, it's okay {player_name} we've all been there", "Hanged.", "That was a quick loss, must've been a hard word.", 
-			    "Aw man, I believed in you.", "Aaaand you lost, oops.", "It's just a game, probably.", f"Nice try {player_name} but you failed.", 
+game_over_rep = [f"Game over, it's okay, {player_name} we've all been there", "Hanged.", "That was a quick loss, must've been a hard word.", 
+			    "Aw man, I believed in you.", "Aaaand you lost, oops.", "It's just a game, probably.", f"Nice try {player_name}, but you failed.", 
 			    "Must've been a tough word, you tried at least."]
 
-correct_rep = [f"Good job {player_name} you won!", "CORRECT!!", f"You actually got it {player_name}!", f"You guessed it! Nicely done {player_name}",
-		        f"Well that was easy for you {player_name}, dictonaries should look out for you!", f"Nice {player_name}, you survived!"
+correct_rep = [f"Good job, {player_name} you won!", "CORRECT!!", f"You actually got it, {player_name}!", f"You guessed it! Nicely done, {player_name}",
+		        f"Well that was easy for you, {player_name}, dictonaries should look out for you!", f"Nice {player_name}, you survived!"
                 f"Wooooo! Congrats {player_name}, you got it!"]
+
+
+
 
 # visar stats från display_stats funktionen
 display_stats(player_name, player_stats)
@@ -200,6 +203,7 @@ while True:
         word = random.choice(words).lower()
         game_over = random.choice(game_over_rep).lower()
         correct = random.choice(correct_rep).lower()
+        
 
         so_far = "".join(["-" if char != " " else " " for char in word])
         wrong = 0
@@ -234,7 +238,10 @@ while True:
                     break
                 else:
                     print(hangedman[wrong])
-                    print(f"You really think {word} is it? Delusional, try again")
+                    wrong_word = [f"I'm sorry but {guess} is not it", f"Unfortunately, {guess} is incorrect", f"Oooops, {guess} is not it", f"I guess {guess} was a confident guess but, nope"]
+                    wrong_w = random.choice(wrong_word)
+                    print(wrong_w)
+                        
                     wrong += 1
                     continue
 
