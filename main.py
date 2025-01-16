@@ -24,6 +24,7 @@ def display_hangman(wrong):
 
 # funktion för att samla alla stats
 def display_stats(player_name, player_stats):
+    
     print(f"\n{player_name}'s stats")
     print(f"wins: {player_stats[player_name]['wins']}, losses: {player_stats[player_name]['losses']}")
 
@@ -49,7 +50,7 @@ def get_hint(word, so_far):
             if so_far[i] == "-":
                 return f"Hint: One of the letters is '{word[i]}!"
     return "No hints available"
-            
+
 
                                 
 # hanged man "lista" så det ser ut som en stick gubbe
@@ -160,6 +161,8 @@ words = ["Legendary", "Gros Michel", "BONK", "Fireflies", "Blueprint", "Brainsto
         "Quixotic", "Embourgeoisement", "Metronome", "Surprise", "Book", "Skylanders", "Clock", "Bottle", "Cookie", "Beer", "Microphone", "Slay the Spire",
         "Microsoft", "Bracelet", "Computer", "Python", "Audiophile", "Technology", "Heretic", "Gunslinger", "Shower Scene", "Nintendo", "Acoustic"]
 
+
+play_again = "no"
 player_stats = load_player_stats()
 
 # frågar efter spelarens namn
@@ -170,6 +173,14 @@ print("Type 'hint' if you need help, you can only ask for one hint!")
 if player_name not in player_stats:
     player_stats[player_name] = {'wins': 0, 'losses': 0}
     print("\nNew player added")
+
+game_over_rep = [f"Game over, it's okay {player_name} we've all been there", "Hanged.", "That was a quick loss, must've been a hard word.", 
+			    "Aw man, I believed in you.", "Aaaand you lost, oops.", "It's just a game, probably.", f"Nice try {player_name} but you failed.", 
+			    "Must've been a tough word, you tried at least."]
+
+correct_rep = [f"Good job {player_name} you won!", "CORRECT!!", f"You actually got it {player_name}!", f"You guessed it! Nicely done {player_name}",
+		        f"Well that was easy for you {player_name}, dictonaries should look out for you!", f"Nice {player_name}, you survived!"
+                f"Wooooo! Congrats {player_name}, you got it!"]
 
 # visar stats från display_stats funktionen
 display_stats(player_name, player_stats)
@@ -187,6 +198,8 @@ while True:
     # om valet är 1, så körs spelet
     if choice == "1":
         word = random.choice(words).lower()
+        game_over = random.choice(game_over_rep).lower()
+        correct = random.choice(correct_rep).lower()
 
         so_far = "".join(["-" if char != " " else " " for char in word])
         wrong = 0
@@ -224,6 +237,7 @@ while True:
                     print(f"You really think {word} is it? Delusional, try again")
                     wrong += 1
                     continue
+
             so_far, message = process_guess(guess, word, so_far, used)
             print(message) 
 
@@ -232,23 +246,27 @@ while True:
         # skriver ut i en ny linje så det ser bättre ut                 
         print("\n" + "-" * 30)    
         if so_far == word:
-            print(f"\nCongrats, {player_name}! {word} is correct")
+            print(correct)
             player_stats[player_name]['wins'] += 1
         
         else:
             display_hangman(wrong)
-            print(f"You got hanged.. The correct word was {word}")        
+            print(game_over)
+            print(f"the word was: {word}")        
             player_stats[player_name]['losses'] += 1
         
     # val 2 är att visa stats, alltså visar den upp hur många vinster/förluster kopplade till alla spelar namn
     elif choice == "2":
-        display_stats(player_name, player_stats)   
-        play_again = input("\nPlay again? (yes/no): ").strip().lower()
+        for player_name in player_stats:
+            display_stats(player_name, player_stats)
+        play_again = input("\nPlay? (yes/no): ").strip().lower()
+
     # om valet är 3 så stängs spelet
     elif choice == "3":   
         if play_again != "yes":
             print("Really? I thought we had a connection.. that's okay, goodbye... :C")
-            break
+        break
+    
 # sparar spelarens stats i player_stats.json och sparar tills nästa gång!
 save_player_stats(player_stats)
 
