@@ -150,29 +150,32 @@ hangedman = (
 ----------
 """)
 
-# tar bort en linje när spelaren får fel
+# initierar att max_wrong är = längden av listan, som används varje gång svaret blir fel
 max_wrong = len(hangedman) - 1
 
 # blanding av olika ord jag kom upp med
 words = ["Legendary", "Gros Michel", "BONK", "Fireflies", "Blueprint", "Brainstorm", "Avenged Sevenfold", "Metallica", "Ice Nine Kills", "Monarch", 
         "Aerosmith", "McQueen", "Balatro", "Snivy", "Water", "Schecter Synyster Gates Signature Standard", "Steve Vai", "Brains", "Photoshop",
-        "Quixotic", "Embourgeoisement", "Metronome", "Surprise", "Book", "Gigabyte AORUS Elite B450-A", "Eric Clapton", "Bottle", "Cookie", "Beer", "Microphone"]
+        "Quixotic", "Embourgeoisement", "Metronome", "Surprise", "Book", "Skylanders", "Clock", "Bottle", "Cookie", "Beer", "Microphone", "Slay the Spire",
+        "Microsoft", "Bracelet", "Computer", "Python", "Audiophile", "Technology", "Heretic", "Gunslinger", "Shower Scene", "Nintendo", "Acoustic"]
 
 player_stats = load_player_stats()
 
-# frågar efter spelar namn
+# frågar efter spelarens namn
 player_name = input("Your name: ")
 print(f"Hi {player_name}! Welcome to hangman")
 print("Type 'hint' if you need help, you can only ask for one hint!")
-
+# lägger in spelaren i player_stats.json om namnet inte redan finns
 if player_name not in player_stats:
     player_stats[player_name] = {'wins': 0, 'losses': 0}
     print("\nNew player added")
 
+# visar stats från display_stats funktionen
 display_stats(player_name, player_stats)
 
-
+# startar spelet
 while True:
+
     print("\nMain Menu")
     print("1. Play Hangman")
     print("2. Stats")
@@ -180,7 +183,7 @@ while True:
     choice = input("Choose an option (1, 2 or 3): ").strip()
 
 
-
+    # om valet är 1, så körs spelet
     if choice == "1":
         word = random.choice(words).lower()
 
@@ -225,7 +228,7 @@ while True:
 
             if message.startswith("Wrong"):
                 wrong += 1           
-                         
+        # skriver ut i en ny linje så det ser bättre ut                 
         print("\n" + "-" * 30)    
         if so_far == word:
             print(f"\nCongrats, {player_name}! {word} is correct")
@@ -236,16 +239,16 @@ while True:
             print(f"You got hanged.. The correct word was {word}")        
             player_stats[player_name]['losses'] += 1
         
-    # ger ett val om spelaren vill köra igen eller inte och visar stats
+    # val 2 är att visa stats, alltså visar den upp hur många vinster/förluster kopplade till alla spelar namn
     elif choice == "2":
         display_stats(player_name, player_stats)   
         play_again = input("\nPlay again? (yes/no): ").strip().lower()
-
+    # om valet är 3 så stängs spelet
     elif choice == "3":   
         if play_again != "yes":
             print("Really? I thought we had a connection.. that's okay, goodbye... :C")
             break
-
+# sparar spelarens stats i player_stats.json och sparar tills nästa gång!
 save_player_stats(player_stats)
 
 
