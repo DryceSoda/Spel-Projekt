@@ -10,5 +10,9 @@
     "Bonk": {
         "wins": 2,
         "losses": 0
+    },
+    "B": {
+        "wins": 0,
+        "losses": 0
     }
 }

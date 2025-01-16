@@ -3,7 +3,8 @@ import os
 import json
 import random
 
-player_history_file = "player_stats.json"
+script_dir = os.path.dirname(os.path.abspath(__file__))
+player_history_file = os.path.join(script_dir, "player_stats.json")
 
 # funktion för att ladda spelar historik
 def load_player_stats():
