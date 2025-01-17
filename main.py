@@ -265,19 +265,18 @@ while True:
         else:
             display_hangman(wrong)
             print(game_over)
-            print(f"the word was: {word}")        
+            print(f"the word was: {word}")       
             player_stats[player_name]['losses'] += 1
         
     # val 2 är att visa stats, alltså visar den upp hur många vinster/förluster kopplade till alla spelar namn
     elif choice == "2":
         for player_name in player_stats:
             display_stats(player_name, player_stats)
-        play_again = input("\nPlay? (yes/no): ").strip().lower()
+        play_again = input("\nBack to main menu? (yes/no): ").strip().lower()
 
     # om valet är 3 så stängs spelet
     elif choice == "3":   
-        if play_again != "yes":
-            print("Thanks for playing!")
+        print("Thanks for playing!")
         break
     
 # sparar spelarens stats i player_stats.json och sparar tills nästa gång!
