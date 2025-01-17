@@ -167,7 +167,7 @@ player_stats = load_player_stats()
 
 # frågar efter spelarens namn
 player_name = input("Your name: ")
-print(f"Hi {player_name}! Welcome to hangman")
+print(f"Hi {player_name}! Welcome to Hangman! You guess the word, or you get hanged! Good luck!")
 print("Type 'hint' if you need help, you can only ask for one hint!")
 # lägger in spelaren i player_stats.json om namnet inte redan finns
 if player_name not in player_stats:
@@ -277,7 +277,7 @@ while True:
     # om valet är 3 så stängs spelet
     elif choice == "3":   
         if play_again != "yes":
-            print("Really? I thought we had a connection.. that's okay, goodbye... :C")
+            print("Thanks for playing!")
         break
     
 # sparar spelarens stats i player_stats.json och sparar tills nästa gång!
