@@ -54,13 +54,11 @@ def get_hint(word, so_far):
                 return f"Hint: One of the letters is '{word[i]}!"
     return "No hints available"
 
+# funktion för att "återställa" terminal vajre gång den printar ut uppdaterade versionen av hangedman listan (alltså gubben)
 def clear_screen():
     if os.name == 'nt':
         os.system('cls')
-    
-    
-
-                                
+                                        
 # hanged man "lista" så det ser ut som en stick gubbe
 hangedman = (
     """
@@ -234,6 +232,7 @@ while True:
             print(f"\nWord: {so_far}")
             guess = input("Enter your guess: ").lower()
             clear_screen()
+            
             if guess == "hint":
                 if hint_used:
                     print("You've already used your hint!")
@@ -247,7 +246,7 @@ while True:
                 if guess == word:
                     so_far = word
                     break
-                else:
+                else: # om ordet är fel : 
                     print(hangedman[wrong])
                     wrong_word = [f"I'm sorry but {guess} is not it", 
                                   f"Unfortunately, {guess} is incorrect", 
@@ -261,10 +260,10 @@ while True:
                         
                     wrong += 1
                     continue
-
+            # skriver ut so far alltså hur många bokstäver som använts
             so_far, message = process_guess(guess, word, so_far, used)
             print(message) 
-
+            # om so far message börjar med att använder skrivit in ett fel 
             if message.startswith("Wrong"):
                 wrong += 1           
         # skriver ut i en ny linje så det ser bättre ut                 
@@ -272,7 +271,7 @@ while True:
         if so_far == word:
             print(correct)
             player_stats[player_name]['wins'] += 1
-        
+        # om 
         else:
             display_hangman(wrong)
             print(game_over)
