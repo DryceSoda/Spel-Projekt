@@ -2,10 +2,13 @@
 import os
 import json
 import random
+import os 
+
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 player_history_file = os.path.join(script_dir, "player_stats.json")
 
+    
 # funktion för att ladda spelar historik
 def load_player_stats():
     if os.path.exists(player_history_file):
@@ -51,6 +54,11 @@ def get_hint(word, so_far):
                 return f"Hint: One of the letters is '{word[i]}!"
     return "No hints available"
 
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    
+    
 
                                 
 # hanged man "lista" så det ser ut som en stick gubbe
@@ -152,8 +160,9 @@ hangedman = (
 ----------
 """)
 
-# initierar att max_wrong är = längden av listan, som används senare i koden 
+# initierar att max_wrong = längden av listan, som används senare i koden (användingen är för sjävla stickgubben)
 max_wrong = len(hangedman) - 1
+
 
 # blanding av olika ord jag kom upp med
 words = ["Legendary", "Gros Michel", "Chair", "Fireflies", "Blueprint", "Brainstorm", "Avenged Sevenfold", "Metallica", "Ice Nine Kills", "Monarch", 
@@ -218,12 +227,13 @@ while True:
 
         # går igenom om ett svar är rätt/fel baserat på om spelaren angivit rätt ord eller en bokstav som finns i ordet, samt tar bort en linje om det är varken eller
         while wrong < max_wrong and so_far != word:
+            
             print("\n" + "-" * 30)
             display_hangman(wrong)
             print(f"\nUsed letters: {','.join(used) if used else 'None'}")
             print(f"\nWord: {so_far}")
             guess = input("Enter your guess: ").lower()
-        
+            clear_screen()
             if guess == "hint":
                 if hint_used:
                     print("You've already used your hint!")
@@ -282,7 +292,6 @@ while True:
     
 # sparar spelarens stats i player_stats.json och sparar tills nästa gång!
 save_player_stats(player_stats)
-
 
 
     
