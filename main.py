@@ -152,14 +152,15 @@ hangedman = (
 ----------
 """)
 
-# initierar att max_wrong är = längden av listan, som används varje gång svaret blir fel
+# initierar att max_wrong är = längden av listan, som används senare i koden 
 max_wrong = len(hangedman) - 1
 
 # blanding av olika ord jag kom upp med
-words = ["Legendary", "Gros Michel", "BONK", "Fireflies", "Blueprint", "Brainstorm", "Avenged Sevenfold", "Metallica", "Ice Nine Kills", "Monarch", 
+words = ["Legendary", "Gros Michel", "Chair", "Fireflies", "Blueprint", "Brainstorm", "Avenged Sevenfold", "Metallica", "Ice Nine Kills", "Monarch", 
         "Aerosmith", "McQueen", "Balatro", "Snivy", "Water", "Schecter Synyster Gates Signature Standard", "Steve Vai", "Brains", "Photoshop",
         "Quixotic", "Embourgeoisement", "Metronome", "Surprise", "Book", "Skylanders", "Clock", "Bottle", "Cookie", "Beer", "Microphone", "Slay the Spire",
-        "Microsoft", "Bracelet", "Computer", "Python", "Audiophile", "Technology", "Heretic", "Gunslinger", "Shower Scene", "Nintendo", "Acoustic"]
+        "Microsoft", "Bracelet", "Computer", "Python", "Audiophile", "Technology", "Heretic", "Gunslinger", "Shower Scene", "Nintendo", "Acoustic",
+        "Projector", "Door", "Headphones", "Ibanez", "Paarthurnax",]
 
 
 play_again = "no"
