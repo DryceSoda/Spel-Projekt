@@ -161,19 +161,22 @@ hangedman = (
 max_wrong = len(hangedman) - 1
 
 
-# blanding av olika ord jag kom upp med
-words = ["Legendary", "Gros Michel", "Chair", "Fireflies", "Blueprint", "Brainstorm", "Avenged Sevenfold", "Metallica", "Ice Nine Kills", "Monarch", 
-        "Aerosmith", "McQueen", "Balatro", "Snivy", "Water", "Schecter Synyster Gates Signature Standard", "Steve Vai", "Brains", "Photoshop",
-        "Quixotic", "Embourgeoisement", "Metronome", "Surprise", "Book", "Skylanders", "Clock", "Bottle", "Cookie", "Beer", "Microphone", "Slay the Spire",
-        "Microsoft", "Bracelet", "Computer", "Python", "Audiophile", "Technology", "Heretic", "Gunslinger", "Shower Scene", "Nintendo", "Acoustic",
-        "Projector", "Door", "Headphones", "Ibanez", "Paarthurnax",]
+# namn av olika band och artister
+words = ["Avenged Sevenfold", "Sabaton", "Trivium", "Gojira", "Disturbed", "Ice Nine Kills", "Pantera", "Metallica", "Amaranthe", "New Years Day", 
+        "Aerosmith", "Halestorm", "Nightwish", "Slipknot", "System of a down", "Korn", "Steve Vai", "Brian May", "Queen",
+        "Limp Bizkit", "Synyster Gates", "Jimi Hendrix", "Joe Satriani", "Gary Moore", "Carlos Santana", "Jinjer", "Godsmack", "Tenacious D",
+        "In Flames", "Megadeth", "In This Moment", "Linkin Park", "Slayer", "Black Sabbath", "Rammstein", "Lamb of God", "Judas Priest", "Cannibal Corpse",
+        "Deftones", "Iron Maiden", "Five Finger Death Punch", "Dragonforce", "Killswitch Engage", "Dream Theater", "Destroy Rebuild Until God Shows",
+        "Meshuggah", "Behemoth", "Beartooth", "Babymetal", "Tool", "Mastodon", "Opeth", "Children of Bodom",
+        "Ozzy Osbourne", "Slash", "The Eagles", "Lzzy Hale", "Yngwie Malmsten", "Eric Clapton", "Scott LePage", "Tim Henson", "John Lennon", 
+        "Joe Perry", "Dimebag", "John Mayer", "James Hetfield", "Tom Morrello",]
 
 play_again = "no"
 player_stats = load_player_stats()
 
 # frågar efter spelarens namn
 player_name = input("Your name: ")
-print(f"Hi {player_name}! Welcome to Hangman! Try to guess the correct word, or you'll get hanged! Good luck!")
+print(f"Hi {player_name}! Welcome to Hangman! Try to guess the correct band or artist, you'll get hanged if you don't! Good luck!")
 print("Type 'hint' if you need help, you can only ask for one hint!")
 
 # lägger in spelaren i player_stats.json om namnet inte redan finns, och skriver ut att spelaren lagts till i json filen
@@ -182,13 +185,13 @@ if player_name not in player_stats:
     print("\nNew player added")
 
 # lista för olika meddelanden som skrivs ut när spelaren förlorat
-game_over_rep = [f"Game over, it's okay, {player_name} we've all been there", "Hanged.", "That was a quick loss, must've been a hard word.", 
+game_over_rep = [f"Game over, it's okay, {player_name} we've all been there", "Hanged.", "That was a quick loss", 
 			    "Aw man, I believed in you.", "Aaaand you lost, oops.", "It's just a game, probably.", f"Nice try {player_name}, but you failed.", 
-			    "Must've been a tough word, you tried at least."]
+			    "You really haven't heard of them before?"]
 
 # lista för olika meddelanden som skrivs ut när spelaren vinner 
 correct_rep = [f"Good job, {player_name} you won!", "CORRECT!!", f"You actually got it, {player_name}!", f"You guessed it! Nicely done, {player_name}",
-		        f"Well that was easy for you, {player_name}, dictonaries should look out for you!", f"Nice {player_name}, you survived!",
+		        f"Well that was easy for you, {player_name}, you're a music enthusiast", f"Nice {player_name}, you survived!",
                 f"Wooooo! Congrats {player_name}, you got it!"]
 
 
@@ -251,9 +254,9 @@ while True: # main loop för spelet, avslutar när använder väljer alternativ 
                                   f"Unfortunately, {guess} is incorrect", 
                                   f"Oooops, {guess} is not it", 
                                   f"I guess {guess} was a confident guess but, nope",
-                                  f"Sorry {guess} is not the word",
+                                  f"Sorry {guess} is wrong",
                                   f"Almost but not quite, {guess} isn't even close.. or is it?",
-                                  f"Ouch, {guess} is not the word",]
+                                  f"Ouch, {guess} isn't even close, probably",]
                     wrong_w = random.choice(wrong_word) # slumpar ett fel meddelande ur wrong_word listan
                     print(wrong_w) # skriver ut fel meddelandet
                         
