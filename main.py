@@ -169,7 +169,11 @@ words = ["Avenged Sevenfold", "Sabaton", "Trivium", "Gojira", "Disturbed", "Ice 
         "Deftones", "Iron Maiden", "Five Finger Death Punch", "Dragonforce", "Killswitch Engage", "Dream Theater", "Destroy Rebuild Until God Shows",
         "Meshuggah", "Behemoth", "Beartooth", "Babymetal", "Tool", "Mastodon", "Opeth", "Children of Bodom",
         "Ozzy Osbourne", "Slash", "The Eagles", "Lzzy Hale", "Yngwie Malmsten", "Eric Clapton", "Scott LePage", "Tim Henson", "John Lennon", 
-        "Joe Perry", "Dimebag", "John Mayer", "James Hetfield", "Tom Morrello",]
+        "Joe Perry", "Dimebag", "John Mayer", "James Hetfield", "Tom Morrello", "Tokio Hotel", "BB King", "Elton John", "Self Deception", 
+        "Doechii", "Beethoven", "Michael Jackson", "Elvis Presley", "Lady Gaga", "Stevie Wonder", "David Bowie", "Bob Marley", 
+        "Frank Sinatra", "George Michael", "Bloodbath", "Whitney Houston", "Jon  Bon Jovi", "Pink Floyd", "Led Zeppelin", "Earth Wind and Fire", 
+        "Coldplay", "ABBA", "The Eagles", "The Doors", "3 Doors Down", "The Police", "Avril Lavigne", "Marina and the diamonds", "Smash Mouth", 
+        "Ramones", "Kesha", "Radiohead", "Blink 182", "Toto", "Marilyn Manson", "One Republic", "Dire Straits", ""]
 
 play_again = "no"
 player_stats = load_player_stats()

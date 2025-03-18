@@ -1,6 +1,6 @@
 {
     "Soda": {
-        "wins": 13,
+        "wins": 16,
         "losses": 4
     },
     "Soa": {
@@ -24,7 +24,7 @@
         "losses": 1
     },
     "johan": {
-        "wins": 0,
-        "losses": 1
+        "wins": 16,
+        "losses": 3
     }
 }
